@@ -1,4 +1,5 @@
 import { MdOutlineToys } from "react-icons/md";
+
 export default function Servicios () {
         
     return (
@@ -40,7 +41,7 @@ export default function Servicios () {
 
         <div className="flex flex-col md:flex-row-reverse items-center mb-12 bg-white p-6 rounded-xl shadow-sm">
             <div className="md:w-1/2 md:pl-8 mt-6 md:mt-0">
-                <h2 className="text-3xl font-semibold mb-4 text-gray-900 font-subtitle">
+                <h2 className="text-3xl font-semibold mb-4 text-blue-800 font-subtitle">
                     Lonchera nutritiva
                 </h2>
                 <p className="text-gray-600 leading-relaxed font-body mb-5">
@@ -74,12 +75,16 @@ export default function Servicios () {
                     alt="Línea punteada decorativa"
                     className="w-1/2 mx-auto block mb-10"
                 />
+              
+
+
+
 
                 {/* Columnas de talleres */}
                 <div className="flex flex-col md:flex-row gap-8">
                 {/* Talleres para padres */}
                 <div className="md:w-1/2 bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
-                    <h2 className="text-3xl font-semibold text-gray-900 mb-4 font-subtitle">
+                    <h2 className="text-3xl font-semibold text-blue-800 mb-4 font-subtitle">
                     Talleres para padres y abuelos
                     </h2>
                     <p className="text-gray-600 leading-relaxed mb-6 font-cuerpo">
@@ -95,7 +100,7 @@ export default function Servicios () {
 
   {/* Talleres para nanas */}
   <div className="md:w-1/2 bg-white p-6 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-300 flex flex-col">
-    <h2 className="text-3xl font-semibold text-gray-900 mb-4 font-subtitle">
+    <h2 className="text-3xl font-semibold text-blue-800 mb-4 font-subtitle">
       Talleres para nanas
     </h2>
     <p className="text-gray-600 leading-relaxed mb-6 font-body">
