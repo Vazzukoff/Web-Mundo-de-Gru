@@ -1,5 +1,5 @@
 import { useEffect, useState, useRef } from "react";
-import { motion, useMotionValue, useTransform } from "framer-motion";
+import { motion, useMotionValue } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import React from "react";
 import type { JSX } from "react";
@@ -42,7 +42,7 @@ const DEFAULT_ITEMS: CarouselItem[] = [
   },
   {
     title: "Comedor",
-    description: "Un espacio donde los niños disfrutan de una alimentación balanceada y aprenden hábitos saludables de convivencia.",
+    description: "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
     id: 3,
     icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
     image: '/images/carrusel/Comedor.jpeg',
@@ -59,7 +59,7 @@ const DEFAULT_ITEMS: CarouselItem[] = [
 const DRAG_BUFFER = 50;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
-const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
+const SPRING_OPTIONS = { type: "spring" as const, stiffness: 300, damping: 30 };
 
 export default function Carousel({
   items = DEFAULT_ITEMS,
@@ -191,16 +191,6 @@ export default function Carousel({
         onAnimationComplete={handleAnimationComplete}
       >
         {carouselItems.map((item, index) => {
-          const range = [
-            -(index + 1) * trackItemOffset,
-            -index * trackItemOffset,
-            -(index - 1) * trackItemOffset,
-          ];
-          const outputRange = [15, 0, -15];
-          const rotateY = useTransform(x, range, outputRange, { clamp: false });
-          const scaleRange = [0.8, 1, 0.8];
-          const scale = useTransform(x, range, scaleRange, { clamp: false });
-          
           return (
             <motion.div
               key={`${item.id}-${index}`}
@@ -212,8 +202,6 @@ export default function Carousel({
               style={{
                 width: itemWidth,
                 height: round ? itemWidth : baseHeight - 32,
-                rotateY: rotateY,
-                scale: scale,
                 ...(round && { borderRadius: "50%" }),
               }}
               transition={effectiveTransition}
