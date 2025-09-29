@@ -4,19 +4,14 @@ import type { PanInfo } from "framer-motion";
 import React from "react";
 import type { JSX } from "react";
 
-// replace icons with your own if needed
-import {
-  FiCircle,
-  FiCode,
-  FiFileText,
-  FiLayers,
-  FiLayout,
-} from "react-icons/fi";
+import { FaChild, FaHeart, FaPaintBrush, FaBookOpen } from "react-icons/fa";
+
 export interface CarouselItem {
   title: string;
   description: string;
   id: number;
   icon: React.ReactNode;
+  image?: string
 }
 
 export interface CarouselProps {
@@ -32,38 +27,36 @@ export interface CarouselProps {
 
 const DEFAULT_ITEMS: CarouselItem[] = [
   {
-    title: "Text Animations",
-    description: "Cool text animations for your projects.",
+    title: "Arenero de Juegos",
+    description: "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
     id: 1,
-    icon: <FiFileText className="h-[16px] w-[16px] text-white" />,
+    icon: <FaChild className="h-[16px] w-[16px] text-white" />,
+    image: '/images/carrusel/arenero.JPG',
   },
   {
-    title: "Animations",
-    description: "Smooth animations for your projects.",
+    title: "Gimnasio Infantil",
+    description: "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
     id: 2,
-    icon: <FiCircle className="h-[16px] w-[16px] text-white" />,
+    icon: <FaHeart className="h-[16px] w-[16px] text-white" />,
+    image: '/images/carrusel/Gym.jpeg',
   },
   {
-    title: "Components",
-    description: "Reusable components for your projects.",
+    title: "Comedor",
+    description: "Un espacio donde los niños disfrutan de una alimentación balanceada y aprenden hábitos saludables de convivencia.",
     id: 3,
-    icon: <FiLayers className="h-[16px] w-[16px] text-white" />,
+    icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
+    image: '/images/carrusel/Comedor.jpeg',
   },
   {
-    title: "Backgrounds",
-    description: "Beautiful backgrounds and patterns for your projects.",
+    title: "Nuestros Docentes",
+    description: "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
     id: 4,
-    icon: <FiLayout className="h-[16px] w-[16px] text-white" />,
-  },
-  {
-    title: "Common UI",
-    description: "Common UI components are coming soon!",
-    id: 5,
-    icon: <FiCode className="h-[16px] w-[16px] text-white" />,
-  },
+    icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
+    image: '/images/carrusel/docente.jpg',
+  }
 ];
 
-const DRAG_BUFFER = 0;
+const DRAG_BUFFER = 50;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
 const SPRING_OPTIONS = { type: "spring", stiffness: 300, damping: 30 };
@@ -89,6 +82,7 @@ export default function Carousel({
   const [isResetting, setIsResetting] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     if (pauseOnHover && containerRef.current) {
       const container = containerRef.current;
@@ -172,26 +166,23 @@ export default function Carousel({
   return (
     <div
       ref={containerRef}
-      className={`relative overflow-hidden p-4 ${
+      className={`relative overflow-hidden ${
         round
-          ? "rounded-full border border-white"
-          : "rounded-[24px] border border-[#222]"
+          ? "rounded-full border border-white p-4"
+          : "rounded-[24px] border border-[#333] bg-amber-400 shadow-xl"
       }`}
       style={{
         width: `${baseWidth}px`,
-        height: baseHeight || (round ? itemWidth : "auto"),
-        ...(round && { height: `${baseWidth}px` }),
+        height: round ? `${baseHeight}px` : `${baseHeight + 48}px`,
       }}
     >
       <motion.div
-        className="flex"
+        className="flex h-full p-4 pb-12"
         drag="x"
         {...dragProps}
         style={{
           width: itemWidth,
           gap: `${GAP}px`,
-          perspective: 1000,
-          perspectiveOrigin: `${currentIndex * trackItemOffset + itemWidth / 2}px 50%`,
           x,
         }}
         onDragEnd={handleDragEnd}
@@ -205,56 +196,87 @@ export default function Carousel({
             -index * trackItemOffset,
             -(index - 1) * trackItemOffset,
           ];
-          const outputRange = [90, 0, -90];
+          const outputRange = [15, 0, -15];
           const rotateY = useTransform(x, range, outputRange, { clamp: false });
+          const scaleRange = [0.8, 1, 0.8];
+          const scale = useTransform(x, range, scaleRange, { clamp: false });
+          
           return (
             <motion.div
-              key={index}
+              key={`${item.id}-${index}`}
               className={`relative shrink-0 flex flex-col ${
                 round
                   ? "items-center justify-center text-center bg-[#060010] border-0"
-                  : "items-start justify-between bg-[#222] border border-[#222] rounded-[12px]"
-              } overflow-hidden cursor-grab active:cursor-grabbing`}
+                  : "bg-white border border-[#ddd] rounded-[16px] overflow-hidden"
+              } shadow-lg cursor-grab active:cursor-grabbing`}
               style={{
                 width: itemWidth,
-                height: round ? itemWidth : "100%",
+                height: round ? itemWidth : baseHeight - 32,
                 rotateY: rotateY,
+                scale: scale,
                 ...(round && { borderRadius: "50%" }),
               }}
               transition={effectiveTransition}
             >
-              <div className={`${round ? "p-0 m-0" : "mb-4 p-5"}`}>
-                <span className="flex h-[28px] w-[28px] items-center justify-center rounded-full bg-[#060010]">
-                  {item.icon}
-                </span>
-              </div>
-              <div className="p-5">
-                <div className="mb-1 font-black text-lg text-white">
-                  {item.title}
+              {/* Imagen */}
+              {item.image && (
+                <div className="relative w-full flex-1 overflow-hidden">
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    className="w-full h-full object-cover"
+                    style={{
+                      minHeight: '250px',
+                      maxHeight: '350px'
+                    }}
+                  />
+                  {/* Overlay gradient para mejor legibilidad del texto */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
-                <p className="text-sm text-white">{item.description}</p>
+              )}
+              
+              {/* Contenido */}
+              <div className={`${
+                item.image 
+                  ? "absolute bottom-0 left-0 right-0 p-6 text-white" 
+                  : "p-6 flex-1 flex flex-col justify-center"
+              }`}>
+                {/* Icono */}
+                {!round && (
+                  <div className="flex items-center justify-center h-[40px] w-[40px] rounded-full bg-[#060010] mb-3 mx-auto">
+                    {item.icon}
+                  </div>
+                )}
+                
+                {/* Título */}
+                <h3 className={`font-bold text-lg mb-2 text-center ${
+                  item.image ? "text-white" : "text-[#333]"
+                }`}>
+                  {item.title}
+                </h3>
+                
+                {/* Descripción */}
+                <p className={`text-sm text-center leading-relaxed ${
+                  item.image ? "text-gray-100" : "text-[#666]"
+                }`}>
+                  {item.description}
+                </p>
               </div>
             </motion.div>
           );
         })}
       </motion.div>
-      <div
-        className={`flex w-full justify-center ${
-          round ? "absolute z-20 bottom-12 left-1/2 -translate-x-1/2" : ""
-        }`}
-      >
-        <div className="mt-4 flex w-[150px] justify-between px-8">
+      
+      {/* Indicadores */}
+      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
+        <div className="flex gap-2 bg-black/20 backdrop-blur-sm rounded-full px-4 py-2">
           {items.map((_, index) => (
-            <motion.div
+            <motion.button
               key={index}
-              className={`h-2 w-2 rounded-full cursor-pointer transition-colors duration-150 ${
+              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
                 currentIndex % items.length === index
-                  ? round
-                    ? "bg-white"
-                    : "bg-[#333333]"
-                  : round
-                    ? "bg-[#555]"
-                    : "bg-[rgba(51,51,51,0.4)]"
+                  ? "bg-white"
+                  : "bg-white/40 hover:bg-white/60"
               }`}
               animate={{
                 scale: currentIndex % items.length === index ? 1.2 : 1,

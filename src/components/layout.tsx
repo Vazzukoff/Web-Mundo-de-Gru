@@ -7,15 +7,11 @@ export default function Layout() {
   return (
     <div className="min-h-screen flex flex-col relative">
       <Header />
-
-      <main className="flex-1 p-4">
+      <main className="flex-1 w-full">
         <Outlet />
       </main>
-
       <Footer />
-      
       <Wapp />
     </div>
   );
 }
-

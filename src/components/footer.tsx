@@ -5,107 +5,129 @@ import { MdOutlineMailOutline } from "react-icons/md";
 import { FaSquareInstagram } from "react-icons/fa6";
 import { FaTiktok, FaFacebook } from "react-icons/fa";
 
-export default function Footer () {
-
+export default function Footer() {
   return (
-    <footer className="bg-cyan-400 py-4 mt-5 font-bold">
-      <div className="container mx-auto flex flex-col md:flex-row justify-between items-center md:items-start px-4 md:pl-10 md:pr-10">
+    <footer className="bg-white border-t border-gray-100 shadow-lg mt-8">
+      <div className="h-0.5 bg-gradient-to-r from-cyan-500 via-amber-400 to-orange-400"></div>
+      
+      <div className="py-8 px-4 sm:px-6">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center md:text-left">
+            <h2 className="font-bold text-lg text-gray-800 mb-4 pb-2 border-b-2 border-cyan-500 inline-block">
+              Redes sociales
+            </h2>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="https://www.instagram.com/elmundodegru_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-600 hover:text-cyan-500 transition-colors duration-300 justify-center md:justify-start group"
+                >
+                  <FaSquareInstagram className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.facebook.com/nidoelmundodegru"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-600 hover:text-cyan-500 transition-colors duration-300 justify-center md:justify-start group"
+                >
+                  <FaFacebook className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">Facebook</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.tiktok.com/@nidoelmundodegru_"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-600 hover:text-cyan-500 transition-colors duration-300 justify-center md:justify-start group"
+                >
+                  <FaTiktok className="text-xl group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">TikTok</span>
+                </a>
+              </li>
+            </ul>
+          </div>
 
-        {/* Redes sociales */}
-        <div className="text-center md:text-left text-white order-1 mb-6 md:mb-0">
-          <h2 className="font-title text-xl underline sm:no-underline">Redes sociales</h2>
-          <ul className="font-body leading-relaxed mt-2 space-y-2">
-            <li className="flex items-center gap-2 justify-center md:justify-start">
-              <FaSquareInstagram />
-              <a
-                href="https://www.facebook.com/nidoelmundodegru"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:underline"
-              >
-                Instagram
-              </a>
-            </li>
-            <li className="flex items-center gap-2 justify-center md:justify-start">
-              <FaFacebook />
-              <a
-                href="https://www.facebook.com/nidoelmundodegru"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:underline"
-              >
-                Facebook
-              </a>
-            </li>
-            <li className="flex items-center gap-2 justify-center md:justify-start">
-              <FaTiktok />
-              <a
-                href="https://www.tiktok.com/@nidoelmundodegru_"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:underline"
-              >
-                TikTok
-              </a>
-            </li>
-          </ul>
-        </div>
-  
-        {/* El mundo de Gru */}
-        <div className="order-2 mb-6 md:mb-0">
-          <nav className="font-subtitle md:ml-14 text-center md:text-left">
-            <h2>
-              <Link to="/" className="text-white font-title text-xl mb-5 underline sm:no-underline sm:hover:underline">
+          <div className="text-center">
+            <h2 className="font-bold text-lg text-gray-800 mb-4 pb-2 border-b-2 border-amber-400 inline-block">
+              <Link to="/" className="hover:text-amber-500 transition-colors duration-300">
                 El mundo de Gru
               </Link>
             </h2>
-            <ul className="mt-2 leading-relaxed space-y-2 text-center">
+            <ul className="space-y-3">
               <li>
-                <Link to="/" className="text-white text-base hover:underline">Inicio</Link>
+                <Link 
+                  to="/" 
+                  className="text-gray-600 hover:text-cyan-500 transition-colors duration-300 font-medium"
+                >
+                  Inicio
+                </Link>
               </li>
               <li>
-                <Link to="/servicios" className="text-white text-base hover:underline">Servicios</Link>
+                <Link 
+                  to="/servicios" 
+                  className="text-gray-600 hover:text-amber-500 transition-colors duration-300 font-medium"
+                >
+                  Servicios
+                </Link>
               </li>
               <li>
-                <Link to="/contacto" className="text-white text-base hover:underline">Contacto</Link>
+                <Link 
+                  to="/contacto" 
+                  className="text-gray-600 hover:text-orange-500 transition-colors duration-300 font-medium"
+                >
+                  Contacto
+                </Link>
               </li>
             </ul>
-          </nav>
-        </div>
+          </div>
   
-        {/* Contáctanos */}
-        <div className="text-center md:text-left order-3 md:justify-end">
-          <Link to="/contacto" className="font-title text-xl text-white underline sm:no-underline sm:hover:underline md:justify-end">
-            Contáctanos
-          </Link>
-          <ul className="font-body space-y-2 mt-4 leading-relaxed md:justify-end">
-            <li className="flex items-center gap-2 justify-center md:justify-end">
-              <FaPhoneAlt className="text-white" />
-              <a
-                href="http://wa.me/51968275363"
-                className="text-white transition-colors text-body hover:underline"
-              >
-                +51 968 275 363
-              </a>
-            </li>
-            <li className="flex items-center gap-2 justify-center md:justify-end">
-              <FaLocationDot className="text-white" />
-              <a
-                href="https://www.google.com/maps/place/Nido+El+Mundo+de+GRU/@-12.0953743,-77.0624951,719m/data=!3m2!1e3!4b1!4m6!3m5!1s0x9105c9c112bbd7fd:0x691aad9376ccb075!8m2!3d-12.0953743!4d-77.0624951!16s%2Fg%2F11rqrm6krr?entry=ttu"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white hover:underline"
-              >
-                Jirón Trujillo 370, Magdalena del Mar
-              </a>
-            </li>
-            <li className="flex items-center gap-2 justify-center md:justify-end">
-              <MdOutlineMailOutline className="text-white" />
-              <span className="text-white">nidoelmundodegru@gmail.com</span>
-            </li>
-          </ul>
+          <div className="text-center md:text-right">
+            <h2 className="font-bold text-lg text-gray-800 mb-4 pb-2 border-b-2 border-orange-400 inline-block">
+              Contáctanos
+            </h2>
+            <ul className="space-y-3">
+              <li>
+                <a
+                  href="http://wa.me/51968275363"
+                  className="flex items-center gap-3 text-gray-600 hover:text-orange-500 transition-colors duration-300 justify-center md:justify-end group"
+                >
+                  <FaPhoneAlt className="text-lg group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">+51 968 275 363</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://www.google.com/maps/place/Nido+El+Mundo+de+GRU/@-12.0953743,-77.0624951,719m/data=!3m2!1e3!4b1!4m6!3m5!1s0x9105c9c112bbd7fd:0x691aad9376ccb075!8m2!3d-12.0953743!4d-77.0624951!16s%2Fg%2F11rqrm6krr?entry=ttu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-gray-600 hover:text-orange-500 transition-colors duration-300 justify-center md:justify-end group"
+                >
+                  <FaLocationDot className="text-lg group-hover:scale-110 transition-transform duration-300" />
+                  <span className="font-medium">Jirón Trujillo 370, Magdalena del Mar</span>
+                </a>
+              </li>
+              <li>
+                <div className="flex items-center gap-3 text-gray-600 justify-center md:justify-end">
+                  <MdOutlineMailOutline className="text-lg" />
+                  <span className="font-medium">nidoelmundodegru@gmail.com</span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-8 pt-6 border-t border-gray-100 text-center">
+          <p className="text-gray-500 text-sm font-medium">
+            © 2024 El mundo de Gru. Todos los derechos reservados.
+          </p>
         </div>
       </div>
     </footer>
-  );        
+  );
 }
