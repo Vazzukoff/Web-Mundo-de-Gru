@@ -38,8 +38,8 @@ export default function Root() {
   ];
   
   return (
-    <section className="bg-gray-50 min-h-screen">
-      <div className="relative w-full">
+    <section className="bg-gray-50 min-h-screen -mt-0">
+      <div className="relative w-full -mt-0">
         <img 
           src="/images/portada.png" 
           alt="Portada" 
