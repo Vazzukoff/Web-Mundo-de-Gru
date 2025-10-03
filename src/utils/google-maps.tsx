@@ -2,14 +2,27 @@ import React, { useRef, useEffect, useState } from 'react';
 
 const NIDO_LOCATION = { lat: -12.0953743, lng: -77.0624951 };
 
+const GOOGLE_MAPS_API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY || 
+                             process.env.REACT_APP_GOOGLE_MAPS_API_KEY;
+
 const GoogleMapsComponent: React.FC = () => {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<google.maps.Map | null>(null);
+  const mapInstanceRef = useRef<google.maps.Map | null>(null);
+  const markerRef = useRef<google.maps.Marker | null>(null);
+  const infoWindowRef = useRef<google.maps.InfoWindow | null>(null);
+  
   const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadGoogleMapsScript = () => {
       if (typeof window === 'undefined') return;
+
+      if (!GOOGLE_MAPS_API_KEY) {
+        setError('Falta configurar GOOGLE_MAPS_API_KEY');
+        console.error('Google Maps API key no configurada');
+        return;
+      }
 
       if (window.google && window.google.maps) {
         setIsLoaded(true);
@@ -18,22 +31,25 @@ const GoogleMapsComponent: React.FC = () => {
 
       const existing = document.querySelector<HTMLScriptElement>('script[data-google-maps]');
       if (existing) {
-        // si ya existe el script, escuchar su carga o comprobar si ya está listo
         if ((window as any).google && (window as any).google.maps) {
           setIsLoaded(true);
         } else {
           existing.addEventListener('load', () => setIsLoaded(true));
+          existing.addEventListener('error', () => setError('Error cargando Google Maps'));
         }
         return;
       }
 
       const script = document.createElement('script');
-      script.src = `https://maps.googleapis.com/maps/api/js?key=TU_API_KEY&libraries=places`;
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${GOOGLE_MAPS_API_KEY}&libraries=places`;
       script.async = true;
       script.defer = true;
       script.setAttribute('data-google-maps', 'true');
       script.onload = () => setIsLoaded(true);
-      script.onerror = () => console.error('Error cargando Google Maps');
+      script.onerror = () => {
+        setError('Error cargando Google Maps. Verifica tu API key.');
+        console.error('Error cargando Google Maps');
+      };
       document.head.appendChild(script);
     };
 
@@ -41,70 +57,88 @@ const GoogleMapsComponent: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    if (!isLoaded || !mapRef.current || map) return;
+    if (!isLoaded || !mapRef.current || mapInstanceRef.current) return;
 
-    let markerInstance: google.maps.Marker | null = null;
-    let infoWindowInstance: google.maps.InfoWindow | null = null;
-
-    const mapInstance = new window.google.maps.Map(mapRef.current, {
-      center: NIDO_LOCATION,
-      zoom: 16,
-      mapTypeControl: false,
-      streetViewControl: false,
-      fullscreenControl: false,
-      zoomControl: true,
-      styles: [
-        {
-          featureType: 'poi',
-          elementType: 'labels',
-          stylers: [{ visibility: 'off' }],
-        },
-      ],
-    });
-
-    markerInstance = new window.google.maps.Marker({
-      position: NIDO_LOCATION,
-      map: mapInstance,
-      title: 'Nido El Mundo de GRU',
-      animation: window.google.maps.Animation.DROP,
-    });
-
-    infoWindowInstance = new window.google.maps.InfoWindow({
-      content: `
-        <div style="padding: 8px; max-width: 200px;">
-          <h3 style="margin: 0 0 5px 0; color: #333; font-size: 16px;">Nido El Mundo de GRU</h3>
-          <p style="margin: 0; color: #666; font-size: 14px;">Jirón Trujillo 370, Magdalena del Mar</p>
-        </div>
-      `,
-    });
-
-    if (markerInstance) {
-      markerInstance.addListener('click', () => {
-        infoWindowInstance?.open(mapInstance, markerInstance!);
+    try {
+      const mapInstance = new window.google.maps.Map(mapRef.current, {
+        center: NIDO_LOCATION,
+        zoom: 16,
+        mapTypeControl: false,
+        streetViewControl: false,
+        fullscreenControl: false,
+        zoomControl: true,
+        styles: [
+          {
+            featureType: 'poi',
+            elementType: 'labels',
+            stylers: [{ visibility: 'off' }],
+          },
+        ],
       });
+
+      const marker = new window.google.maps.Marker({
+        position: NIDO_LOCATION,
+        map: mapInstance,
+        title: 'Nido El Mundo de GRU',
+        animation: window.google.maps.Animation.DROP,
+      });
+
+      const infoWindow = new window.google.maps.InfoWindow({
+        content: `
+          <div style="padding: 8px; max-width: 200px;">
+            <h3 style="margin: 0 0 5px 0; color: #333; font-size: 16px;">Nido El Mundo de GRU</h3>
+            <p style="margin: 0; color: #666; font-size: 14px;">Jirón Trujillo 370, Magdalena del Mar</p>
+          </div>
+        `,
+      });
+
+      marker.addListener('click', () => {
+        infoWindow.open(mapInstance, marker);
+      });
+
+      mapInstanceRef.current = mapInstance;
+      markerRef.current = marker;
+      infoWindowRef.current = infoWindow;
+
+    } catch (err) {
+      setError('Error inicializando el mapa');
+      console.error('Error inicializando mapa:', err);
     }
 
-    setMap(mapInstance);
-
     return () => {
-      // limpieza: quitar listeners y eliminar marker/infoWindow
-      if (markerInstance) {
+      if (markerRef.current) {
         try {
-          window.google.maps.event.clearInstanceListeners(markerInstance);
+          window.google.maps.event.clearInstanceListeners(markerRef.current);
+          markerRef.current.setMap(null);
         } catch (e) {
-          // no crítico si falla la limpieza
+          console.error('Error limpiando marcador:', e);
         }
-        markerInstance.setMap(null);
-        markerInstance = null;
+        markerRef.current = null;
       }
-      if (infoWindowInstance) {
-        infoWindowInstance.close();
-        infoWindowInstance = null;
+
+      if (infoWindowRef.current) {
+        infoWindowRef.current.close();
+        infoWindowRef.current = null;
       }
-      // liberar referencia de estado del mapa
-      setMap(null);
+
+      if (mapInstanceRef.current) {
+        mapInstanceRef.current = null;
+      }
     };
-  }, [isLoaded, map]);
+  }, [isLoaded]);
+
+  if (error) {
+    return (
+      <div className="w-full h-80 bg-red-50 rounded-lg flex items-center justify-center">
+        <div className="text-center px-4">
+          <p className="text-red-600 text-sm font-medium">{error}</p>
+          <p className="text-gray-600 text-xs mt-2">
+            Verifica tu configuración de Google Maps API
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   if (!isLoaded) {
     return (
@@ -118,7 +152,7 @@ const GoogleMapsComponent: React.FC = () => {
   }
 
   return (
-    <div className="w-full h-80 rounded-lg overflow-hidden">
+    <div className="w-full h-80 rounded-lg overflow-hidden shadow-lg">
       <div ref={mapRef} className="w-full h-full" />
     </div>
   );

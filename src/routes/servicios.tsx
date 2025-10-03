@@ -5,7 +5,7 @@ export default function Servicios() {
   return (
     <section className="bg-gray-50 min-h-screen py-12">
       <div className="w-full px-4 sm:px-6">
-
+        
         <div className="text-center mb-16">
           <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
             Nuestros Servicios

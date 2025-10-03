@@ -4,7 +4,6 @@ import Root from "./routes/root"
 import Servicios from "./routes/servicios"
 import Contacto from "./routes/contacto"
 import Layout from "./components/layout"
-import 'leaflet/dist/leaflet.css';
 
 const App: React.FC = () => {
 

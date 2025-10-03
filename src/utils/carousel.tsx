@@ -3,7 +3,6 @@ import { motion, useMotionValue } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import React from "react";
 import type { JSX } from "react";
-
 import { FaChild, FaHeart, FaPaintBrush, FaBookOpen } from "react-icons/fa";
 
 export interface CarouselItem {
@@ -11,7 +10,7 @@ export interface CarouselItem {
   description: string;
   id: number;
   icon: React.ReactNode;
-  image?: string
+  image?: string;
 }
 
 export interface CarouselProps {
@@ -28,32 +27,36 @@ export interface CarouselProps {
 const DEFAULT_ITEMS: CarouselItem[] = [
   {
     title: "Arenero de Juegos",
-    description: "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
+    description:
+      "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
     id: 1,
     icon: <FaChild className="h-[16px] w-[16px] text-white" />,
-    image: '/images/carrusel/arenero.JPG',
+    image: "/images/carrusel/arenero.JPG",
   },
   {
     title: "Gimnasio Infantil",
-    description: "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
+    description:
+      "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
     id: 2,
     icon: <FaHeart className="h-[16px] w-[16px] text-white" />,
-    image: '/images/carrusel/Gym.jpeg',
+    image: "/images/carrusel/Gym.jpeg",
   },
   {
     title: "Comedor",
-    description: "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
+    description:
+      "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
     id: 3,
     icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
-    image: '/images/carrusel/Comedor.jpeg',
+    image: "/images/carrusel/Comedor.jpeg",
   },
   {
     title: "Nuestros Docentes",
-    description: "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
+    description:
+      "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
     id: 4,
     icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
-    image: '/images/carrusel/docente.jpg',
-  }
+    image: "/images/carrusel/docente.jpg",
+  },
 ];
 
 const DRAG_BUFFER = 50;
@@ -82,7 +85,7 @@ export default function Carousel({
   const [isResetting, setIsResetting] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   useEffect(() => {
     if (pauseOnHover && containerRef.current) {
       const container = containerRef.current;
@@ -143,7 +146,9 @@ export default function Carousel({
       if (loop && currentIndex === items.length - 1) {
         setCurrentIndex(currentIndex + 1);
       } else {
-        setCurrentIndex((prev) => Math.min(prev + 1, carouselItems.length - 1));
+        setCurrentIndex((prev) =>
+          Math.min(prev + 1, carouselItems.length - 1)
+        );
       }
     } else if (offset > DRAG_BUFFER || velocity > VELOCITY_THRESHOLD) {
       if (loop && currentIndex === 0) {
@@ -206,7 +211,6 @@ export default function Carousel({
               }}
               transition={effectiveTransition}
             >
-              {/* Imagen */}
               {item.image && (
                 <div className="relative w-full flex-1 overflow-hidden">
                   <img
@@ -214,39 +218,40 @@ export default function Carousel({
                     alt={item.title}
                     className="w-full h-full object-cover"
                     style={{
-                      minHeight: '250px',
-                      maxHeight: '350px'
+                      minHeight: "250px",
+                      maxHeight: "350px",
                     }}
                   />
-                  {/* Overlay gradient para mejor legibilidad del texto */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
                 </div>
               )}
-              
-              {/* Contenido */}
-              <div className={`${
-                item.image 
-                  ? "absolute bottom-0 left-0 right-0 p-6 text-white" 
-                  : "p-6 flex-1 flex flex-col justify-center"
-              }`}>
-                {/* Icono */}
+
+              <div
+                className={`${
+                  item.image
+                    ? "absolute bottom-0 left-0 right-0 p-6 text-white"
+                    : "p-6 flex-1 flex flex-col justify-center"
+                }`}
+              >
                 {!round && (
                   <div className="flex items-center justify-center h-[40px] w-[40px] rounded-full bg-[#060010] mb-3 mx-auto">
                     {item.icon}
                   </div>
                 )}
-                
-                {/* Título */}
-                <h3 className={`font-bold text-lg mb-2 text-center ${
-                  item.image ? "text-white" : "text-[#333]"
-                }`}>
+
+                <h3
+                  className={`font-bold text-lg mb-2 text-center ${
+                    item.image ? "text-white" : "text-[#333]"
+                  }`}
+                >
                   {item.title}
                 </h3>
-                
-                {/* Descripción */}
-                <p className={`text-sm text-center leading-relaxed ${
-                  item.image ? "text-gray-100" : "text-[#666]"
-                }`}>
+
+                <p
+                  className={`text-sm text-center leading-relaxed ${
+                    item.image ? "text-gray-100" : "text-[#666]"
+                  }`}
+                >
                   {item.description}
                 </p>
               </div>
@@ -254,8 +259,7 @@ export default function Carousel({
           );
         })}
       </motion.div>
-      
-      {/* Indicadores */}
+
       <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
         <div className="flex gap-2 bg-black/20 backdrop-blur-sm rounded-full px-4 py-2">
           {items.map((_, index) => (
