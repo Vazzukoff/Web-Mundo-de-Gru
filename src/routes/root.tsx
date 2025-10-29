@@ -22,7 +22,7 @@ export default function Root() {
       image: '/images/carrusel/Gym.jpeg',
     },
     {
-      title: "Comedor",
+      title: "Momentos de Aprendizaje",
       description: "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
       id: 3,
       icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
@@ -34,12 +34,12 @@ export default function Root() {
       id: 4,
       icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
       image: '/images/carrusel/docente.jpg',
-    }
+    },
   ];
   
   return (
-    <section className="bg-gray-50 min-h-screen -mt-0">
-      <div className="relative w-full -mt-0">
+    <section className="bg-gray-50 min-h-screen">
+      <div className="relative w-full">
         <img 
           src="/images/portada.png" 
           alt="Portada" 
@@ -48,7 +48,7 @@ export default function Root() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
       </div>
       
-      <div className="bg-white py-16 px-4">
+      <div className="bg-white py-16 px-4 select-none">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
@@ -76,7 +76,7 @@ export default function Root() {
         </div>
       </div>
 
-      <div className="bg-gray-50 py-16 px-4">
+      <div className="bg-gray-50 py-16 px-4 select-none">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
             <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
@@ -133,21 +133,21 @@ export default function Root() {
         </div>      
       </div>
 
-      <div className="bg-white py-16 px-4">
+      <div className="bg-white py-12 sm:py-16 px-4">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
+          <div className="text-center mb-8 sm:mb-12 select-none">
+            <h1 className="font-bold text-3xl sm:text-4xl md:text-5xl text-gray-800 mb-4 sm:mb-6">
               Galería
             </h1>
-            <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 via-amber-400 to-orange-400 mx-auto rounded-full mb-8"></div>
+            <div className="w-20 sm:w-24 h-1 bg-gradient-to-r from-cyan-500 via-amber-400 to-orange-400 mx-auto rounded-full mb-6 sm:mb-8"></div>
           </div>
           
-          <div className="flex justify-center items-center">
-            <div className="bg-gray-50 rounded-2xl p-8 shadow-lg border border-gray-100">
-              <Carousel 
+          <div className="flex justify-center items-center px-2 sm:px-4 py-4 sm:py-6">
+            <div className="bg-gray-50 rounded-xl sm:rounded-2xl p-3 sm:p-5 md:p-6 shadow-lg border border-gray-100 w-full">
+              <Carousel
                 items={galleryItems}
-                baseWidth={800} 
-                baseHeight={500} 
+                baseWidth={1100}
+                baseHeight={650}
                 autoplay={true}
                 autoplayDelay={5000}
                 pauseOnHover={true}

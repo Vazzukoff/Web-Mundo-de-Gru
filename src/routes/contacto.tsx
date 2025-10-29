@@ -42,7 +42,7 @@ export default function Contacto() {
     setErrors({});
 
     try {
-      const response = await fetch('http://localhost:4000/send-email', {
+      const response = await fetch('/api/send-email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function Contacto() {
 
   return (
     <section className="bg-gray-50 min-h-screen py-12">
-  <div className="w-full px-4 sm:px-6">
+      <div className="w-full px-4 sm:px-6">
         {/* Título principal */}
         <div className="text-center mb-12">
           <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">

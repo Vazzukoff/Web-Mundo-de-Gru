@@ -3,7 +3,7 @@ import { FaUtensils, FaUsers, FaHeart, FaAppleAlt, FaHome } from "react-icons/fa
 
 export default function Servicios() {
   return (
-    <section className="bg-gray-50 min-h-screen py-12">
+    <section className="bg-gray-50 min-h-screen py-12 select-none">
       <div className="w-full px-4 sm:px-6">
         
         <div className="text-center mb-16">

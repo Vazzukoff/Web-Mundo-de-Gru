@@ -74,8 +74,9 @@ export default function Carousel({
   loop = false,
   round = false,
 }: CarouselProps): JSX.Element {
+  const [dimensions, setDimensions] = useState({ width: baseWidth, height: baseHeight });
   const containerPadding = 16;
-  const itemWidth = baseWidth - containerPadding * 2;
+  const itemWidth = dimensions.width - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
   const carouselItems = loop ? [...items, items[0]] : items;
@@ -85,6 +86,22 @@ export default function Carousel({
   const [isResetting, setIsResetting] = useState<boolean>(false);
 
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const updateDimensions = () => {
+      if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        const newWidth = Math.min(baseWidth, containerWidth);
+        const aspectRatio = baseHeight / baseWidth;
+        const newHeight = newWidth * aspectRatio;
+        setDimensions({ width: newWidth, height: newHeight });
+      }
+    };
+
+    updateDimensions();
+    window.addEventListener('resize', updateDimensions);
+    return () => window.removeEventListener('resize', updateDimensions);
+  }, [baseWidth, baseHeight]);
 
   useEffect(() => {
     if (pauseOnHover && containerRef.current) {
@@ -169,112 +186,122 @@ export default function Carousel({
       };
 
   return (
-    <div
-      ref={containerRef}
-      className={`relative overflow-hidden ${
-        round
-          ? "rounded-full border border-white p-4"
-          : "rounded-[24px] border border-[#333] bg-amber-400 shadow-xl"
-      }`}
-      style={{
-        width: `${baseWidth}px`,
-        height: round ? `${baseHeight}px` : `${baseHeight + 48}px`,
-      }}
-    >
-      <motion.div
-        className="flex h-full p-4 pb-12"
-        drag="x"
-        {...dragProps}
+    <div className="relative w-full max-w-full" style={{ maxWidth: `${baseWidth}px` }}>
+      <div
+        ref={containerRef}
+        className={`relative overflow-hidden w-full ${
+          round
+            ? "rounded-full border border-white p-2 sm:p-4"
+            : "rounded-2xl bg-white shadow-lg border border-gray-100"
+        }`}
         style={{
-          width: itemWidth,
-          gap: `${GAP}px`,
-          x,
+          height: round ? `${dimensions.height}px` : `${dimensions.height}px`,
         }}
-        onDragEnd={handleDragEnd}
-        animate={{ x: -(currentIndex * trackItemOffset) }}
-        transition={effectiveTransition}
-        onAnimationComplete={handleAnimationComplete}
       >
-        {carouselItems.map((item, index) => {
-          return (
-            <motion.div
-              key={`${item.id}-${index}`}
-              className={`relative shrink-0 flex flex-col ${
-                round
-                  ? "items-center justify-center text-center bg-[#060010] border-0"
-                  : "bg-white border border-[#ddd] rounded-[16px] overflow-hidden"
-              } shadow-lg cursor-grab active:cursor-grabbing`}
-              style={{
-                width: itemWidth,
-                height: round ? itemWidth : baseHeight - 32,
-                ...(round && { borderRadius: "50%" }),
-              }}
-              transition={effectiveTransition}
-            >
-              {item.image && (
-                <div className="relative w-full flex-1 overflow-hidden">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="w-full h-full object-cover"
-                    style={{
-                      minHeight: "250px",
-                      maxHeight: "350px",
-                    }}
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-                </div>
-              )}
-
-              <div
-                className={`${
-                  item.image
-                    ? "absolute bottom-0 left-0 right-0 p-6 text-white"
-                    : "p-6 flex-1 flex flex-col justify-center"
-                }`}
+        <motion.div
+          className="flex h-full p-2 sm:p-4"
+          drag="x"
+          {...dragProps}
+          style={{
+            width: itemWidth,
+            gap: `${GAP}px`,
+            x,
+          }}
+          onDragEnd={handleDragEnd}
+          animate={{ x: -(currentIndex * trackItemOffset) }}
+          transition={effectiveTransition}
+          onAnimationComplete={handleAnimationComplete}
+        >
+          {carouselItems.map((item, index) => {
+            return (
+              <motion.div
+                key={`${item.id}-${index}`}
+                className={`relative shrink-0 flex flex-col ${
+                  round
+                    ? "items-center justify-center text-center bg-[#060010] border-0"
+                    : "bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl"
+                } cursor-grab active:cursor-grabbing transition-all duration-300 hover:-translate-y-1`}
+                style={{
+                  width: itemWidth,
+                  height: round ? itemWidth : dimensions.height - 16,
+                  ...(round && { borderRadius: "50%" }),
+                }}
+                transition={effectiveTransition}
               >
-                {!round && (
-                  <div className="flex items-center justify-center h-[40px] w-[40px] rounded-full bg-[#060010] mb-3 mx-auto">
-                    {item.icon}
+                {item.image && (
+                  <div className="relative w-full flex-1 overflow-hidden">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                      style={{
+                        minHeight: "200px",
+                        maxHeight: "100%",
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/85 via-gray-900/30 to-transparent" />
                   </div>
                 )}
 
-                <h3
-                  className={`font-bold text-lg mb-2 text-center ${
-                    item.image ? "text-white" : "text-[#333]"
+                <div
+                  className={`${
+                    item.image
+                      ? "absolute bottom-0 left-0 right-0 p-4 sm:p-5 md:p-8 text-white"
+                      : "p-3 sm:p-6 flex-1 flex flex-col justify-center"
                   }`}
                 >
-                  {item.title}
-                </h3>
+                  {!round && item.icon && (
+                    <div 
+                      className={`flex items-center justify-center h-[40px] w-[40px] sm:h-[48px] sm:w-[48px] md:h-[56px] md:w-[56px] rounded-full mb-3 sm:mb-4 md:mb-5 mx-auto shadow-lg transition-transform duration-300 hover:scale-110 ${
+                        index === 0 ? 'bg-cyan-500' : 
+                        index === 1 ? 'bg-amber-400' : 
+                        index === 2 ? 'bg-orange-400' : 
+                        'bg-gradient-to-br from-cyan-500 to-amber-400'
+                      }`}
+                    >
+                      <div className="text-white text-xl sm:text-2xl md:text-3xl">
+                        {item.icon}
+                      </div>
+                    </div>
+                  )}
 
-                <p
-                  className={`text-sm text-center leading-relaxed ${
-                    item.image ? "text-gray-100" : "text-[#666]"
-                  }`}
-                >
-                  {item.description}
-                </p>
-              </div>
-            </motion.div>
-          );
-        })}
-      </motion.div>
+                  <h3
+                    className={`font-bold text-base sm:text-lg md:text-2xl lg:text-3xl mb-2 sm:mb-3 md:mb-4 text-center ${
+                      item.image ? "text-white drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]" : "text-gray-800"
+                    }`}
+                  >
+                    {item.title}
+                  </h3>
 
-      <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2">
-        <div className="flex gap-2 bg-black/20 backdrop-blur-sm rounded-full px-4 py-2">
+                  <p
+                    className={`text-sm sm:text-base md:text-lg lg:text-xl text-center leading-relaxed font-medium ${
+                      item.image ? "text-gray-100 drop-shadow-[0_2px_6px_rgba(0,0,0,0.8)]" : "text-gray-600"
+                    }`}
+                  >
+                    {item.description}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+
+      <div className="flex justify-center mt-5 sm:mt-6 md:mt-7">
+        <div className="flex gap-2 sm:gap-2.5 md:gap-3 bg-white rounded-full px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 shadow-md border border-gray-200">
           {items.map((_, index) => (
             <motion.button
               key={index}
-              className={`w-2 h-2 rounded-full transition-colors duration-300 ${
+              className={`rounded-full transition-all duration-300 ${
                 currentIndex % items.length === index
-                  ? "bg-white"
-                  : "bg-white/40 hover:bg-white/60"
+                  ? "bg-gradient-to-r from-cyan-500 via-amber-400 to-orange-400 w-8 h-3 sm:w-10 sm:h-3.5 md:w-12 md:h-4"
+                  : "bg-gray-300 hover:bg-gray-400 w-3 h-3 sm:w-3.5 sm:h-3.5 md:w-4 md:h-4"
               }`}
               animate={{
-                scale: currentIndex % items.length === index ? 1.2 : 1,
+                scale: currentIndex % items.length === index ? 1 : 0.9,
               }}
               onClick={() => setCurrentIndex(index)}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.3 }}
             />
           ))}
         </div>
