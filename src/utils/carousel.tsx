@@ -220,7 +220,7 @@ export default function Carousel({
                   round
                     ? "items-center justify-center text-center bg-[#060010] border-0"
                     : "bg-white rounded-xl sm:rounded-2xl overflow-hidden shadow-md hover:shadow-xl"
-                } cursor-grab active:cursor-grabbing transition-all duration-300 hover:-translate-y-1`}
+                } cursor-grab active:cursor-grabbing transition-all duration-300`}
                 style={{
                   width: itemWidth,
                   height: round ? itemWidth : dimensions.height - 16,

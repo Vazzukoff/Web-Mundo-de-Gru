@@ -124,7 +124,7 @@ export default function Footer() {
 
         <div className="mt-8 pt-6 border-t border-gray-100 text-center">
           <p className="text-gray-500 text-sm font-medium">
-            © 2024 El mundo de Gru. Todos los derechos reservados.
+            © 2025 El mundo de Gru. Todos los derechos reservados.
           </p>
         </div>
       </div>

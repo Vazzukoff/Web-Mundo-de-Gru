@@ -1,5 +1,6 @@
 import { MdOutlineToys } from "react-icons/md";
 import { FaUtensils, FaUsers, FaHeart, FaAppleAlt, FaHome } from "react-icons/fa";
+import { motion } from "framer-motion";
 
 export default function Servicios() {
   return (
@@ -8,7 +9,7 @@ export default function Servicios() {
         
         <div className="text-center mb-16">
           <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
-            Nuestros Servicios
+            Servicios adicionales
           </h1>
           <div className="w-24 h-1 bg-gradient-to-r from-cyan-500 via-amber-400 to-orange-400 mx-auto rounded-full mb-8"></div>
           <p className="text-lg text-gray-600 font-medium max-w-2xl mx-auto">
@@ -32,8 +33,9 @@ export default function Servicios() {
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                  Nuestra guardería y nido de educación infantil ofrece cuidado de niños con atención personalizada, espacios seguros,
-                  actividades lúdicas y desarrollo cognitivo. ¡Confía en expertos para el bienestar y crecimiento integral de tus hijos!
+                  Acogemos a los niños con amor y respeto, fomentando su autonomía y confianza en sí mismos. Entre juegos, 
+                  risas y momentos de exploración, construimos a lo largo del día lazos de amistad que fortalecen su desarrollo 
+                  emocional y social.
                 </p>
                 <div className="flex items-center gap-3 bg-cyan-50 p-4 rounded-lg">
                   <FaHeart className="text-cyan-500 text-xl" />
@@ -44,7 +46,7 @@ export default function Servicios() {
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl transform rotate-3 scale-105"></div>
                 <img
-                  src="/images/servicios/guarderia/guarderia.jpg"
+                  src="/images/servicios/guarderia/guarderia.JPG"
                   alt="Guardería"
                   className="relative w-full h-80 lg:h-96 rounded-2xl shadow-lg object-cover transform -rotate-1 hover:rotate-0 transition-transform duration-300"
                 />
@@ -60,7 +62,7 @@ export default function Servicios() {
               <div className="relative order-2 lg:order-1">
                 <div className="absolute inset-0 bg-gradient-to-br from-amber-100 to-amber-200 rounded-2xl transform -rotate-3 scale-105"></div>
                 <img
-                  src="/images/servicios/comedor/comedor1.jpg"
+                  src="/images/servicios/comedor/comedor.JPG"
                   alt="Comedor"
                   className="relative w-full h-80 lg:h-96 rounded-2xl shadow-lg object-cover transform rotate-1 hover:rotate-0 transition-transform duration-300"
                 />
@@ -73,18 +75,17 @@ export default function Servicios() {
                   </div>
                   <div>
                     <h2 className="text-3xl font-bold text-gray-800">
-                      Lonchera Nutritiva
+                      Comedor
                     </h2>
                     <div className="w-16 h-0.5 bg-amber-400 mt-1"></div>
                   </div>
                 </div>
                 <p className="text-gray-600 leading-relaxed font-medium text-lg">
-                  ¡Alimenta bien a tu hijo! Nuestro servicio de comedor infantil ofrece desayunos saludables y almuerzos nutritivos
-                  con menús balanceados, ingredientes frescos y atención dietética personalizada. Comida casera para nidos, garantizando
-                  nutrición infantil y bienestar.
+                  Ofrecemos comida diaria con proteínas, carbohidratos y grasas saludables para el crecimiento de tu hijo, complementando 
+                  su desarrollo cognitivo. Los menús son recomendados por una nutricionista especializada en niños.
                 </p>
                 <div className="flex items-center gap-3 bg-amber-50 p-4 rounded-lg">
-                  <FaHeart className="text-amber-500 text-xl" />
+                  <FaAppleAlt className="text-amber-500 text-xl" />
                   <span className="text-amber-700 font-semibold">Menús balanceados y nutritivos</span>
                 </div>
               </div>
@@ -92,7 +93,13 @@ export default function Servicios() {
           </div>
         </div>
 
-        <div>
+        {/* Sección de Talleres con animación */}
+        <motion.div
+          initial={{ opacity: 0, y: 50 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
+        >
           <div className="text-center mb-12">
             <h1 className="font-bold text-4xl sm:text-5xl text-gray-800 mb-6">
               Talleres Especializados
@@ -232,7 +239,7 @@ export default function Servicios() {
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
