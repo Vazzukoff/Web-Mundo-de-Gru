@@ -10,28 +10,24 @@ export default function Root() {
   const galleryItems: CarouselItem[] = [
     {
       title: "Arenero de Juegos",
-      description: "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
       id: 1,
       icon: <FaChild className="h-[16px] w-[16px] text-white" />,
       image: '/images/carrusel/arenero.JPG',
     },
     {
       title: "Aulas Educativas",
-      description: "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
       id: 2,
       icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
       image: '/images/carrusel/salon-de-juegos.JPG',
     },
     {
       title: "Nuestros Docentes",
-      description: "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
       id: 4,
       icon: <FaChalkboardTeacher className="h-[16px] w-[16px] text-white" />,
       image: '/images/carrusel/docente2.JPG',
     },
     {
       title: "Promovemos buenos valores",
-      description: "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
       id: 3,
       icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
       image: '/images/carrusel/lavamanos.JPG',
