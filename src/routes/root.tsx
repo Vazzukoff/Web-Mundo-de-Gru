@@ -352,7 +352,7 @@ export default function Root() {
           </div>
           
           <div className="flex justify-center items-center">
-            <div className="bg-gray-50 rounded-2xl p-8 shadow-lg border border-gray-100 w-full max-w-5xl">
+            <div className="bg-gray-50 rounded-2xl p-2 sm:p-4 md:p-8 shadow-lg border border-gray-100 w-full max-w-5xl">
               <Carousel 
                 items={galleryItems}
                 baseWidth={1000}

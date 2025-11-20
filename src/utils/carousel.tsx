@@ -77,7 +77,7 @@ export default function Carousel({
   // Padding adaptativo según viewport
   const getContainerPadding = () => {
     if (typeof window === 'undefined') return 16;
-    return window.innerWidth < 640 ? 8 : 16; // 8px en móvil, 16px en desktop
+    return window.innerWidth < 640 ? 4 : 16; // 4px en móvil, 16px en desktop
   };
   
   const [containerPadding, setContainerPadding] = useState(getContainerPadding);
@@ -87,7 +87,7 @@ export default function Carousel({
     if (typeof window === 'undefined') return { width: baseWidth, height: baseHeight };
     
     const viewportWidth = window.innerWidth;
-    const margin = viewportWidth < 640 ? 16 : 32; // Menos margen en móvil
+    const margin = viewportWidth < 640 ? 8 : 32; // Mucho menos margen en móvil
     const containerWidth = Math.min(viewportWidth - margin, baseWidth);
     const aspectRatio = baseHeight / baseWidth;
     const calculatedHeight = containerWidth * aspectRatio;
