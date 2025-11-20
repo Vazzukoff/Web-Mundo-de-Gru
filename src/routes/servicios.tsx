@@ -39,14 +39,14 @@ export default function Servicios() {
                 </p>
                 <div className="flex items-center gap-3 bg-cyan-50 p-4 rounded-lg">
                   <FaHeart className="text-cyan-500 text-xl" />
-                  <span className="text-cyan-700 font-semibold">Atención personalizada y cariñosa</span>
+                  <span className="text-cyan-700 font-semibold">Atención personalizada</span>
                 </div>
               </div>
 
               <div className="relative">
                 <div className="absolute inset-0 bg-gradient-to-br from-cyan-100 to-cyan-200 rounded-2xl transform rotate-3 scale-105"></div>
                 <img
-                  src="/images/servicios/guarderia/guarderia.JPG"
+                  src="/images/servicios/guarderia/guarderia2.JPG"
                   alt="Guardería"
                   className="relative w-full h-80 lg:h-96 rounded-2xl shadow-lg object-cover transform -rotate-1 hover:rotate-0 transition-transform duration-300"
                 />

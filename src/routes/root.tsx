@@ -212,7 +212,7 @@ export default function Root() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {/* Card 1 - Cyan */}
             <div className="group">
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border border-gray-100 hover:-translate-y-2">
+              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border-2 border-cyan-500 hover:-translate-y-2">
                 <div className="w-20 h-20 bg-cyan-500 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <MdFamilyRestroom className="text-4xl text-white"/>
                 </div>
@@ -227,7 +227,7 @@ export default function Root() {
 
             {/* Card 2 - Amber */}
             <div className="group">
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border border-gray-100 hover:-translate-y-2">
+              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border-2 border-amber-400 hover:-translate-y-2">
                 <div className="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <LuBrain className="text-4xl text-white"/>
                 </div>
@@ -243,7 +243,7 @@ export default function Root() {
 
             {/* Card 3 - Orange */}
             <div className="group">
-              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border border-gray-100 hover:-translate-y-2">
+              <div className="bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 p-8 text-center h-full border-2 border-orange-400 hover:-translate-y-2">
                 <div className="w-20 h-20 bg-orange-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300">
                   <FaHome className="text-4xl text-white"/>
                 </div>
@@ -352,11 +352,11 @@ export default function Root() {
           </div>
           
           <div className="flex justify-center items-center">
-            <div className="bg-gray-50 rounded-2xl p-8 shadow-lg border border-gray-100">
+            <div className="bg-gray-50 rounded-2xl p-8 shadow-lg border border-gray-100 w-full max-w-5xl">
               <Carousel 
                 items={galleryItems}
-                baseWidth={800} 
-                baseHeight={500} 
+                baseWidth={1000}
+                baseHeight={600}
                 autoplay={true}
                 autoplayDelay={5000}
                 pauseOnHover={true}

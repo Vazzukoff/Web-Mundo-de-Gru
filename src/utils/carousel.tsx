@@ -24,48 +24,13 @@ export interface CarouselProps {
   round?: boolean;
 }
 
-const DEFAULT_ITEMS: CarouselItem[] = [
-  {
-    title: "Arenero de Juegos",
-    description:
-      "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
-    id: 1,
-    icon: <FaChild className="h-[16px] w-[16px] text-white" />,
-    image: "/images/carrusel/arenero.JPG",
-  },
-  {
-    title: "Gimnasio Infantil",
-    description:
-      "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
-    id: 2,
-    icon: <FaHeart className="h-[16px] w-[16px] text-white" />,
-    image: "/images/carrusel/Gym.jpeg",
-  },
-  {
-    title: "Comedor",
-    description:
-      "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
-    id: 3,
-    icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
-    image: "/images/carrusel/Comedor.jpeg",
-  },
-  {
-    title: "Nuestros Docentes",
-    description:
-      "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
-    id: 4,
-    icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
-    image: "/images/carrusel/docente.jpg",
-  },
-];
-
 const DRAG_BUFFER = 50;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
 const SPRING_OPTIONS = { type: "spring" as const, stiffness: 300, damping: 30 };
 
 export default function Carousel({
-  items = DEFAULT_ITEMS,
+  items,
   baseWidth = 300,
   baseHeight = 300,
   autoplay = false,
