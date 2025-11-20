@@ -3,6 +3,7 @@ import { motion, useMotionValue } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import React from "react";
 import type { JSX } from "react";
+import { FaChild, FaHeart, FaPaintBrush, FaBookOpen } from "react-icons/fa";
 
 export interface CarouselItem {
   title: string;
@@ -13,7 +14,7 @@ export interface CarouselItem {
 }
 
 export interface CarouselProps {
-  items: CarouselItem[];
+  items?: CarouselItem[];
   baseHeight?: number;
   baseWidth?: number;
   autoplay?: boolean;
@@ -23,13 +24,48 @@ export interface CarouselProps {
   round?: boolean;
 }
 
+const DEFAULT_ITEMS: CarouselItem[] = [
+  {
+    title: "Arenero de Juegos",
+    description:
+      "Espacio dedicado al juego libre y la exploración sensorial donde los niños desarrollan su creatividad.",
+    id: 1,
+    icon: <FaChild className="h-[16px] w-[16px] text-white" />,
+    image: "/images/carrusel/arenero.JPG",
+  },
+  {
+    title: "Gimnasio Infantil",
+    description:
+      "Área de desarrollo psicomotriz donde fortalecemos habilidades físicas y coordinación.",
+    id: 2,
+    icon: <FaHeart className="h-[16px] w-[16px] text-white" />,
+    image: "/images/carrusel/Gym.jpeg",
+  },
+  {
+    title: "Comedor",
+    description:
+      "Capturando los momentos más especiales del crecimiento y desarrollo de nuestros pequeños.",
+    id: 3,
+    icon: <FaPaintBrush className="h-[16px] w-[16px] text-white" />,
+    image: "/images/carrusel/Comedor.jpeg",
+  },
+  {
+    title: "Nuestros Docentes",
+    description:
+      "Profesionales especializados comprometidos con la educación integral de cada niño y niña.",
+    id: 4,
+    icon: <FaBookOpen className="h-[16px] w-[16px] text-white" />,
+    image: "/images/carrusel/docente.JPG",
+  },
+];
+
 const DRAG_BUFFER = 50;
 const VELOCITY_THRESHOLD = 500;
 const GAP = 16;
 const SPRING_OPTIONS = { type: "spring" as const, stiffness: 300, damping: 30 };
 
 export default function Carousel({
-  items,
+  items = DEFAULT_ITEMS,
   baseWidth = 300,
   baseHeight = 300,
   autoplay = false,
@@ -38,8 +74,31 @@ export default function Carousel({
   loop = false,
   round = false,
 }: CarouselProps): JSX.Element {
-  const [dimensions, setDimensions] = useState({ width: baseWidth, height: baseHeight });
-  const containerPadding = 16;
+  // Padding adaptativo según viewport
+  const getContainerPadding = () => {
+    if (typeof window === 'undefined') return 16;
+    return window.innerWidth < 640 ? 8 : 16; // 8px en móvil, 16px en desktop
+  };
+  
+  const [containerPadding, setContainerPadding] = useState(getContainerPadding);
+  
+  // Calcular dimensiones iniciales basadas en viewport
+  const getInitialDimensions = () => {
+    if (typeof window === 'undefined') return { width: baseWidth, height: baseHeight };
+    
+    const viewportWidth = window.innerWidth;
+    const margin = viewportWidth < 640 ? 16 : 32; // Menos margen en móvil
+    const containerWidth = Math.min(viewportWidth - margin, baseWidth);
+    const aspectRatio = baseHeight / baseWidth;
+    const calculatedHeight = containerWidth * aspectRatio;
+    
+    return { 
+      width: containerWidth, 
+      height: calculatedHeight 
+    };
+  };
+  
+  const [dimensions, setDimensions] = useState(getInitialDimensions);
   const itemWidth = dimensions.width - containerPadding * 2;
   const trackItemOffset = itemWidth + GAP;
 
@@ -54,17 +113,36 @@ export default function Carousel({
   useEffect(() => {
     const updateDimensions = () => {
       if (containerRef.current) {
-        const containerWidth = containerRef.current.offsetWidth;
-        const newWidth = Math.min(baseWidth, containerWidth);
+        const viewportWidth = window.innerWidth;
+        const margin = viewportWidth < 640 ? 16 : 32; // Menos margen en móvil
+        const padding = viewportWidth < 640 ? 8 : 16; // Menos padding en móvil
+        
+        setContainerPadding(padding);
+        
+        const containerWidth = Math.min(containerRef.current.offsetWidth, baseWidth);
+        const actualWidth = Math.min(containerWidth, viewportWidth - margin);
         const aspectRatio = baseHeight / baseWidth;
-        const newHeight = newWidth * aspectRatio;
-        setDimensions({ width: newWidth, height: newHeight });
+        const newHeight = actualWidth * aspectRatio;
+        
+        setDimensions({ width: actualWidth, height: newHeight });
       }
     };
 
+    // Actualizar inmediatamente
     updateDimensions();
-    window.addEventListener('resize', updateDimensions);
-    return () => window.removeEventListener('resize', updateDimensions);
+    
+    // Debounce para resize
+    let timeoutId: NodeJS.Timeout;
+    const debouncedUpdate = () => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateDimensions, 100);
+    };
+    
+    window.addEventListener('resize', debouncedUpdate);
+    return () => {
+      window.removeEventListener('resize', debouncedUpdate);
+      clearTimeout(timeoutId);
+    };
   }, [baseWidth, baseHeight]);
 
   useEffect(() => {
@@ -187,7 +265,7 @@ export default function Carousel({
                 } cursor-grab active:cursor-grabbing transition-all duration-300`}
                 style={{
                   width: itemWidth,
-                  height: round ? itemWidth : dimensions.height - 16,
+                  height: round ? itemWidth : dimensions.height - containerPadding * 2,
                   ...(round && { borderRadius: "50%" }),
                 }}
                 transition={effectiveTransition}
