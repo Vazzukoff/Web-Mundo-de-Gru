@@ -3,7 +3,6 @@ import { motion, useMotionValue } from "framer-motion";
 import type { PanInfo } from "framer-motion";
 import React from "react";
 import type { JSX } from "react";
-import { FaChild, FaHeart, FaPaintBrush, FaBookOpen } from "react-icons/fa";
 
 export interface CarouselItem {
   title: string;
@@ -14,7 +13,7 @@ export interface CarouselItem {
 }
 
 export interface CarouselProps {
-  items?: CarouselItem[];
+  items: CarouselItem[];
   baseHeight?: number;
   baseWidth?: number;
   autoplay?: boolean;
